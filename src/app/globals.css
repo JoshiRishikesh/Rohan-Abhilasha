@@ -1,26 +1,279 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Luxury Light Palette - Alabaster & Obsidian */
+  --color-background: oklch(98% 0.01 80); /* Creamy Alabaster */
+  
+  /* PREMIUM DARK: Deep Obsidian for high-impact contrast */
+  --color-foreground: oklch(12% 0.015 285); 
+  
+  /* CHAMPAGNE GOLD: Refined for light mode visibility */
+  --color-primary: oklch(72% 0.06 85); 
+  --color-primary-hover: oklch(78% 0.08 90);
+  
+  /* Contrast for text sitting ON gold buttons */
+  --color-primary-foreground: oklch(12% 0.015 285); 
+  
+  --color-secondary: oklch(94% 0.015 80); /* Soft Warm Greige */
+  --color-secondary-foreground: oklch(20% 0.015 285);
+  
+  --color-muted: oklch(90% 0.01 80);
+  --color-muted-foreground: oklch(40% 0.02 285); /* Darker muted text for UX */
+  
+  --color-border: oklch(85% 0.02 85);
+  --color-accent: oklch(72% 0.06 85);
+
+  /* Elevation System - Subtle & Airy */
+  --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --shadow-medium: 0 12px 40px rgba(0, 0, 0, 0.08);
+  --shadow-strong: 0 20px 60px rgba(0, 0, 0, 0.12);
+
+  /* Typography */
+  --font-serif: ui-serif, "Playfair Display", Georgia, serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Spacing */
+  --spacing-section: 10rem;
 }
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--color-background);
+    --foreground: var(--color-foreground);
+  }
+
+  *, ::before, ::after {
+    border-color: var(--color-border, currentColor);
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+    height: auto;
+    object-fit: cover;
+  }
+
+  /* High-Impact Premium Typography */
+  h1, h2, h3, h4, .font-serif {
+    font-family: var(--font-serif);
+    color: var(--color-foreground); /* Obsidian */
+    font-weight: 400;
+    letter-spacing: -0.02em; /* Tighter kerning for luxury feel */
+  }
+
+  h1 { 
+    font-size: clamp(3.5rem, 9vw, 7.5rem); 
+    line-height: 1.05;
+    margin-bottom: 2rem;
+  }
+
+  h2 { 
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 500;
+  }
+
+  p {
+    color: oklch(35% 0.015 285); /* Slightly softened obsidian for prose */
+    font-size: 1.125rem;
+    max-width: 65ch;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .section-container {
+    max-width: 85rem;
+    margin: 0 auto;
+    padding: var(--spacing-section) 2.5rem;
+  }
+
+  /* Image Overlay - High Legibility */
+  .img-overlay {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .img-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Top-heavy dark fade to Alabaster base */
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 50%, var(--color-background) 100%);
+    pointer-events: none;
+  }
+
+  /* The "Luxury Flash" Button */
+  .luxury-button {
+    cursor: pointer; /* Ensures the hand icon appears */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 3.5rem;
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 0.7rem;
+    font-weight: 800;
+    transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+    box-shadow: var(--shadow-light);
+    border: 1px solid var(--color-primary);
+  }
+
+  .luxury-button:hover {
+    background-color: var(--color-foreground); /* Flash to Obsidian */
+    color: var(--color-background);
+    border-color: var(--color-foreground);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-medium);
+  }
+
+  .glass-card {
+    background-color: white;
+    border: 1px solid var(--color-border);
+    padding: 3rem;
+    box-shadow: var(--shadow-light);
+    transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+  }
+
+  .glass-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-strong);
+  }
+
+  .input-field {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--color-border);
+    padding: 1.25rem 0;
+    color: var(--color-foreground);
+    font-size: 1rem;
+    transition: all 0.4s ease;
+  }
+
+  .input-field:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    padding-left: 0.5rem;
+  }
+
+  .divider-gold {
+    height: 2px;
+    width: 80px;
+    background: var(--color-primary);
+    margin: 2rem 0;
+  }
+}
+
+@layer utilities {
+  .aspect-cinematic { aspect-ratio: 21 / 9; }
+  .aspect-landscape { aspect-ratio: 16 / 9; }
+  .aspect-portrait { aspect-ratio: 4 / 5; }
+
+  .text-balance { text-wrap: balance; }
+
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1.2s cubic-bezier(0.2, 1, 0.3, 1), 
+                transform 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+  }
+
+  .reveal-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .kerning-wide {
+    letter-spacing: 0.4em;
+  }
+  .reveal-hidden {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+    filter: blur(10px);
+    transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reveal-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  /* 1. Background Zoom-Out: Starts at 1.25x and settles at 1.05x */
+  @keyframes hero-zoom-out {
+    from { transform: scale(1.25); opacity: 0; }
+    to { transform: scale(1.05); opacity: 1; }
+  }
+  .animate-hero-zoom-out { animation: hero-zoom-out 4s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
+
+  /* 2. Vertical Line Grow */
+  @keyframes line-grow {
+    from { transform: scaleY(0); }
+    to { transform: scaleY(1); }
+  }
+  .animate-line-grow { animation: line-grow 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+  /* 3. Word-by-word Reveal */
+  @keyframes title-reveal {
+    from { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+  .animate-title-reveal { animation: title-reveal 1s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
+
+  /* 4. Soft Blur Reveal */
+  @keyframes blur-reveal {
+    from { opacity: 0; filter: blur(20px); }
+    to { opacity: 1; filter: blur(0); }
+  }
+  .animate-blur-reveal { animation: blur-reveal 2s ease-out forwards; }
+
+  /* 5. Horizontal Divider Grow */
+  @keyframes divider-grow {
+    from { width: 0; opacity: 0; }
+    to { width: 80px; opacity: 1; }
+  }
+  .animate-divider-grow { animation: divider-grow 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+
+  /* 6. Standard Slide Up */
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-slide-up { animation: slide-up 1s ease-out forwards; }
+}
+.modal-backdrop {
+  @apply fixed inset-0 z-9999 flex items-center justify-center bg-slate-900/60 backdrop-blur-md;
+  /* 'fixed inset-0' makes it cover the whole screen */
+  /* 'z-[9999]' ensures it is on top of everything else */
+}
+
+.glass-card {
+  @apply bg-white/95 border border-slate-200 p-8 md:p-12 shadow-2xl;
+  /* Added specific styling for the container */
+}
+
+.input-field {
+  @apply w-full border-b border-slate-300 py-3 bg-transparent focus:border-primary outline-none transition-colors text-slate-900 placeholder:text-slate-400 font-sans;
+}
+
+.luxury-button {
+  @apply bg-slate-900 text-white py-4 px-8 uppercase tracking-[0.2em] text-[0.7rem] font-bold hover:bg-primary transition-all duration-500;
 }
