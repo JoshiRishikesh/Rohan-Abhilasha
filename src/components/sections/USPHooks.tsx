@@ -17,22 +17,22 @@ export default function USPHooks({ data }: { data: ProjectConfig["usp"] }) {
   const itemVariants: Variants = {
     hidden: { 
       opacity: 0, 
-      y: 30,
-      filter: "blur(10px)" 
+      y: 20, // Reduced y for smoother mobile flow
+      filter: "blur(8px)" 
     },
     visible: { 
       opacity: 1, 
       y: 0,
       filter: "blur(0px)",
       transition: { 
-        duration: 1.2, 
+        duration: 1.0, 
         ease: [0.22, 1, 0.36, 1] 
       } 
     },
   };
 
   return (
-    <section className="bg-background relative z-30 overflow-hidden min-h-screen flex items-stretch">
+    <section className="bg-background relative z-30 overflow-hidden md:min-h-screen flex items-stretch border-t border-border/50">
       <motion.div 
         className="w-full flex flex-col"
         initial="hidden"
@@ -40,40 +40,42 @@ export default function USPHooks({ data }: { data: ProjectConfig["usp"] }) {
         viewport={{ once: true, margin: "-10%" }}
         variants={containerVariants}
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 grow">
+        {/* Changed grid flow for mobile: tighter rows */}
+        <div className="grid grid-cols-1 md:grid-cols-3 grow divide-y md:divide-y-0 md:divide-x divide-border/60">
           {data.map((item, i) => (
             <motion.div 
               key={i} 
               variants={itemVariants}
-              className="group relative flex flex-col justify-center p-12 lg:p-20 border-b md:border-b-0 md:border-r border-border hover:bg-secondary/30 transition-all duration-1000 min-h-[60vh] md:min-h-screen"
+              // MOBILE OPTIMIZATION: Reduced padding (p-8) and height (min-h-[320px])
+              className="group relative flex flex-col justify-center p-8 lg:p-20 border-border hover:bg-secondary/30 transition-all duration-1000 min-h-[320px] md:min-h-screen overflow-hidden"
             >
-              {/* Massive Ghost Number for Vertical Scale */}
-              <span className="absolute top-20 right-12 text-8xl lg:text-9xl font-serif italic text-primary/5 group-hover:text-primary/10 group-hover:-translate-y-4 transition-all duration-1000 select-none pointer-events-none">
+              {/* Massive Ghost Number - Scaled down for mobile */}
+              <span className="absolute top-10 right-6 md:top-20 md:right-12 text-7xl lg:text-9xl font-serif italic text-primary/5 group-hover:text-primary/10 group-hover:-translate-y-2 md:group-hover:-translate-y-4 transition-all duration-1000 select-none pointer-events-none">
                 0{i + 1}
               </span>
 
               <div className="relative z-10">
-                {/* Category Label */}
-                <p className="text-primary text-[0.7rem] font-black uppercase mb-8 tracking-[0.5em]">
+                {/* Category Label - Tighter margin on mobile */}
+                <p className="text-primary text-[0.6rem] md:text-[0.7rem] font-black uppercase mb-4 md:mb-8 tracking-[0.4em] md:tracking-[0.5em]">
                   {item.title}
                 </p>
 
-                {/* The Main Hook - Increased scale for full-screen impact */}
-                <h3 className="text-4xl lg:text-5xl xl:text-6xl font-serif text-foreground leading-[1.1] max-w-[10ch] group-hover:translate-x-4 transition-transform duration-700 ease-out">
+                {/* The Main Hook - Reduced size on mobile for better fit */}
+                <h3 className="text-3xl lg:text-5xl xl:text-6xl font-serif text-foreground leading-[1.2] md:leading-[1.1] max-w-[12ch] md:max-w-[10ch] group-hover:translate-x-2 md:group-hover:translate-x-4 transition-transform duration-700 ease-out">
                   {item.subtitle}
                 </h3>
 
-                {/* Descriptive nuance (Optional if your config has it, otherwise stays clean) */}
-                <p className="mt-8 text-foreground/40 text-sm max-w-[25ch] font-light leading-relaxed opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-700 delay-100">
+                {/* Descriptive nuance - Forced visible on mobile (since no hover) but kept clean */}
+                <p className="mt-4 md:mt-8 text-foreground/40 text-xs md:text-sm max-w-[28ch] md:max-w-[25ch] font-light leading-relaxed md:opacity-0 md:group-hover:opacity-100 md:translate-y-4 md:group-hover:translate-y-0 transition-all duration-700 delay-100">
                   Experience a new paradigm of architectural excellence and refined living.
                 </p>
 
-                {/* Interactive Accent Line */}
-                <div className="w-12 h-1px bg-primary mt-12 group-hover:w-24 transition-all duration-1000" />
+                {/* Interactive Accent Line - Smaller on mobile */}
+                <div className="w-8 h-[1px] md:w-12 bg-primary mt-6 md:mt-12 group-hover:w-16 md:group-hover:w-24 transition-all duration-1000" />
               </div>
               
-              {/* Corner Accent */}
-              <div className="absolute bottom-0 right-0 w-0 h-0 border-t-40 border-t-transparent border-r-40 border-r-primary/0 group-hover:border-r-primary/10 transition-all duration-700" />
+              {/* Corner Accent - Hidden on mobile to reduce visual noise */}
+              <div className="hidden md:block absolute bottom-0 right-0 w-0 h-0 border-t-40 border-t-transparent border-r-40 border-r-primary/0 group-hover:border-r-primary/10 transition-all duration-700" />
               
               {/* Subtle hover background sweep */}
               <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/2 pointer-events-none transition-colors duration-1000" />

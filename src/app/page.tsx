@@ -9,6 +9,7 @@ import LocationAdvantage from "@/components/sections/LocationAdvantage";
 import Walkthrough from "@/components/sections/Walkthrough";
 import Footer from "@/components/sections/Footer";
 import AmenitiesSection from "@/components/sections/AmenitiesSection";
+import Gallery from "@/components/sections/Gallery";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <Amenities data={PROJECT_DATA.amenities} />
       <AmenitiesSection data={PROJECT_DATA.categorizedAmenities} />
       <Inventory data={PROJECT_DATA.inventory} />
+      <Gallery data={PROJECT_DATA.gallery} />      
       <USPHooks data={PROJECT_DATA.usp} />
       <LocationAdvantage data={PROJECT_DATA.locationAdvantages}/>
       <About data={PROJECT_DATA.about} projectName={PROJECT_DATA.projectName} />

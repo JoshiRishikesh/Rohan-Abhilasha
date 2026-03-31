@@ -157,9 +157,9 @@ export const PROJECT_DATA: ProjectConfig = {
   ],
 
   gallery: {
-    amenities: ["/gallery/amen-1.jpg", "/gallery/amen-2.jpg"],
-    exterior: ["/gallery/ext-1.jpg", "/gallery/ext-2.jpg"],
-    layout: ["/gallery/plan-1.jpg"],
+    amenities: ["/assets/project-2.avif", "/assets/project-3.avif"],
+    exterior: ["/assets/project-4.avif", "/assets/project-5.avif"],
+    layout: ["/assets/layout.avif"],
   },
   walkthroughVideoId: "dQw4w9WgXcQ",
   locationAdvantages: [
