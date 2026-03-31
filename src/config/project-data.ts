@@ -6,6 +6,12 @@ export interface AmenityCategory {
 export interface ProjectConfig {
   projectName: string;
   brandLogo: string;
+  // --- ADDED FOR TRACKING ---
+  googleAds: {
+    conversionId: string;    // e.g., 'AW-123456789'
+    conversionLabel: string; // e.g., 'AbCdEfGhIjKlMnOpQrSt'
+  };
+  // --------------------------
   hero: {
     title: string;
     subtitle: string;
@@ -22,9 +28,7 @@ export interface ProjectConfig {
     content: string;
     image: string;
   };
-  // Updated to handle categorized lists
   categorizedAmenities: AmenityCategory[]; 
-  // Kept for featured icons/images
   amenities: { image?: string; icon?: string; title: string }[]; 
   gallery: {
     amenities: string[];
@@ -52,6 +56,13 @@ export interface ProjectConfig {
 export const PROJECT_DATA: ProjectConfig = {
   projectName: "Rohan Abhilasha",
   brandLogo: "/assets/logo.avif",
+  
+  // Update these tomorrow once you get them from the Google Ads dashboard
+  googleAds: {
+    conversionId: "AW-123456789", 
+    conversionLabel: "AbCdEfGhIjKlMnOpQrSt",
+  },
+
   hero: {
     title: "The Art of Modern Living",
     subtitle: "Premium 1 | 2 & 3 BHK Homes in Wagholi, Pune",
@@ -83,11 +94,9 @@ export const PROJECT_DATA: ProjectConfig = {
   ],
   about: {
     title: "Where Your Future Finds Its Perfect Address",
-    content: "Rohan Abhilasha 4 is designed for those who seek more than just a home — a space that evolves with their lifestyle, offering comfort, connection, and lasting value.Experience thoughtfully crafted residences surrounded by open courtyards, serene walkways, and vibrant community spaces that bring everyday living to life.With a perfect balance of privacy and openness, every home is built to adapt to your future — whether it’s growing families, changing needs, or new aspirations.Now is the time to invest in a home that grows with you.",
+    content: "Rohan Abhilasha 4 is designed for those who seek more than just a home — a space that evolves with their lifestyle, offering comfort, connection, and lasting value. Experience thoughtfully crafted residences surrounded by open courtyards, serene walkways, and vibrant community spaces that bring everyday living to life. With a perfect balance of privacy and openness, every home is built to adapt to your future — whether it’s growing families, changing needs, or new aspirations. Now is the time to invest in a home that grows with you.",
     image: "/assets/project-2.avif",
   },
-
-  // Full List of Amenities Categorized
   categorizedAmenities: [
     {
       category: "Clubhouse & Lifestyle",
@@ -147,15 +156,12 @@ export const PROJECT_DATA: ProjectConfig = {
       ]
     }
   ],
-
-  // Featured Amenities (Used for visual sections)
   amenities: [
     { image: "/assets/gymnasium.avif", title: "Well equipped gymnasium" },
     { image: "/assets/Swimming.avif", title: "Swimming pool with deck" },
     { image: "/assets/Pets.avif", title: "Pets zone" },
     { image: "/assets/Badminton.avif", title: "Badminton court" },
   ],
-
   gallery: {
     amenities: ["/assets/project-2.avif", "/assets/project-3.avif"],
     exterior: ["/assets/project-4.avif", "/assets/project-5.avif"],

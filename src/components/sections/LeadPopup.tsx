@@ -53,6 +53,14 @@ export default function LeadPopup() {
         const result = await submitLead(formData);
         
         if (result.success) {
+          if (typeof window !== "undefined" && (window as any).gtag) {
+          (window as any).gtag('event', 'conversion', {
+            'send_to': `${PROJECT_DATA.googleAds.conversionId}/${PROJECT_DATA.googleAds.conversionLabel}`,
+            'value': 1.0,
+            'currency': 'INR'
+          });
+          console.log("🚀 Google Ads Lead Tracked!");
+        }
           // Mark as submitted locally
           localStorage.setItem(`submitted_${PROJECT_DATA.projectName}`, "true");
           setIsSuccess(true);
