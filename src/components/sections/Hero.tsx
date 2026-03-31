@@ -44,11 +44,14 @@ export default function Hero({ data, highlights }: HeroProps) {
       </div>
 
       {/* 2. Main Hero Content */}
-      {/* CHANGES MADE: 
-          - Increased pb (padding-bottom) across all breakpoints to clear the highlights.
-          - Added md:mb-20 to the button wrapper to ensure extra clearance on desktop.
-      */}
-      <div className="relative z-20 section-container text-center flex flex-col items-center pb-80 sm:pb-72 md:pb-40 lg:pb-48 px-6">
+      <div className={`
+        relative z-20 section-container text-center flex flex-col items-center px-6
+        /* Mobile: Large padding to stay above the 2x2 stacked grid */
+        pb-80 sm:pb-72 
+        /* Desktop: Negative translate pulls content up, large padding clears the horizontal highlights */
+        md:pb-64 lg:pb-80 md:-translate-y-12 lg:-translate-y-20
+        transition-transform duration-700
+      `}>
         <div className="w-px h-8 md:h-12 bg-primary mb-6 md:mb-10 origin-top animate-line-grow" />
         
         <span className="uppercase text-[0.55rem] md:text-[0.65rem] mb-3 md:mb-6 text-primary font-bold tracking-[0.3em] md:tracking-[0.6em] opacity-0 animate-slide-up" style={{ animationDelay: '800ms', animationFillMode: 'forwards' }}>
@@ -72,8 +75,7 @@ export default function Hero({ data, highlights }: HeroProps) {
           {data.subtitle}
         </p>
         
-        {/* Added mb-12 on desktop to push the button even further away from the highlights */}
-        <div className="opacity-0 animate-slide-up w-full sm:w-auto md:mb-12" style={{ animationDelay: '2400ms', animationFillMode: 'forwards' }}>
+        <div className="opacity-0 animate-slide-up w-full sm:w-auto" style={{ animationDelay: '2400ms', animationFillMode: 'forwards' }}>
           <button 
             onClick={handleBrochureClick}
             className="luxury-button w-full sm:w-auto px-8 md:px-16 py-4 md:py-5 border border-primary/50 hover:bg-primary transition-all duration-700 cursor-pointer text-[0.65rem] md:text-[0.75rem] tracking-widest text-white uppercase font-bold shadow-2xl"
