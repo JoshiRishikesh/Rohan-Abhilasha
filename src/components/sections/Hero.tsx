@@ -44,16 +44,18 @@ export default function Hero({ data, highlights }: HeroProps) {
       </div>
 
       {/* 2. Main Hero Content */}
-      {/* Reduced pb-48 to pb-64 on mobile to account for the larger bottom grid height */}
-      <div className="relative z-20 section-container text-center flex flex-col items-center pb-72 sm:pb-60 md:pb-24 px-6">
+      {/* CHANGES MADE: 
+          - Increased pb (padding-bottom) across all breakpoints to clear the highlights.
+          - Added md:mb-20 to the button wrapper to ensure extra clearance on desktop.
+      */}
+      <div className="relative z-20 section-container text-center flex flex-col items-center pb-80 sm:pb-72 md:pb-40 lg:pb-48 px-6">
         <div className="w-px h-8 md:h-12 bg-primary mb-6 md:mb-10 origin-top animate-line-grow" />
         
         <span className="uppercase text-[0.55rem] md:text-[0.65rem] mb-3 md:mb-6 text-primary font-bold tracking-[0.3em] md:tracking-[0.6em] opacity-0 animate-slide-up" style={{ animationDelay: '800ms', animationFillMode: 'forwards' }}>
           An Exclusive Premiere
         </span>
         
-        {/* Adjusted text sizes: 3xl for small mobile, 5xl for tablet, 8xl for desktop */}
-        <h1 className="text-3xl sm:text-5xl md:text-8xl text-white leading-[1.2] md:leading-[1.1] mb-4 md:mb-8 font-serif text-balance">
+        <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl text-white leading-[1.2] md:leading-[1.1] mb-4 md:mb-8 font-serif text-balance">
           {data.title.split(' ').map((word, i) => (
             <span 
               key={i} 
@@ -65,15 +67,16 @@ export default function Hero({ data, highlights }: HeroProps) {
           ))}
         </h1>
         
-        <p className="max-w-xs sm:max-w-xl md:max-w-2xl mx-auto text-white/80 font-light tracking-wide text-sm md:text-lg mb-8 md:mb-10 opacity-0 animate-blur-reveal text-balance" 
+        <p className="max-w-xs sm:max-w-xl md:max-w-2xl mx-auto text-white/80 font-light tracking-wide text-sm md:text-lg mb-8 md:mb-12 opacity-0 animate-blur-reveal text-balance" 
            style={{ animationDelay: '2000ms', animationFillMode: 'forwards' }}>
           {data.subtitle}
         </p>
         
-        <div className="opacity-0 animate-slide-up w-full sm:w-auto" style={{ animationDelay: '2400ms', animationFillMode: 'forwards' }}>
+        {/* Added mb-12 on desktop to push the button even further away from the highlights */}
+        <div className="opacity-0 animate-slide-up w-full sm:w-auto md:mb-12" style={{ animationDelay: '2400ms', animationFillMode: 'forwards' }}>
           <button 
             onClick={handleBrochureClick}
-            className="luxury-button w-full sm:w-auto px-8 md:px-16 py-4 md:py-5 border border-primary/50 hover:bg-primary transition-all duration-700 cursor-pointer text-[0.65rem] md:text-[0.75rem] tracking-widest text-white uppercase font-bold"
+            className="luxury-button w-full sm:w-auto px-8 md:px-16 py-4 md:py-5 border border-primary/50 hover:bg-primary transition-all duration-700 cursor-pointer text-[0.65rem] md:text-[0.75rem] tracking-widest text-white uppercase font-bold shadow-2xl"
           >
             {data.ctaText}
           </button>
@@ -96,19 +99,19 @@ export default function Hero({ data, highlights }: HeroProps) {
                   ease: [0.16, 1, 0.3, 1],
                 }}
                 className={`
-                  py-6 md:py-12 px-3 md:px-8 text-center 
-                  border-t border-white/10 bg-[#050505]/80 md:bg-[#050505]/40 
-                  backdrop-blur-md md:backdrop-blur-none
+                  py-6 md:py-10 px-3 md:px-8 text-center 
+                  border-t border-white/10 bg-[#050505]/90 md:bg-[#050505]/60 
+                  backdrop-blur-xl md:backdrop-blur-md
                   group hover:bg-primary transition-all duration-700 cursor-pointer
                   ${idx % 2 === 0 ? "border-r border-white/10" : ""} 
-                  ${idx < 2 ? "md:border-r" : "md:border-r"}
+                  ${idx < 4 ? "md:border-r" : ""}
                   ${idx === 3 ? "md:border-r-0" : ""}
                 `}
               >
                 <p className="text-primary text-[0.5rem] md:text-[0.55rem] uppercase tracking-[0.2em] md:tracking-[0.5em] mb-1 md:mb-3 font-bold group-hover:text-black transition-colors">
                   {item.label}
                 </p>
-                <p className="text-white font-serif text-sm md:text-2xl tracking-tight group-hover:text-black transition-colors">
+                <p className="text-white font-serif text-sm md:text-xl lg:text-2xl tracking-tight group-hover:text-black transition-colors">
                   {item.value}
                 </p>
               </motion.div>
@@ -118,7 +121,7 @@ export default function Hero({ data, highlights }: HeroProps) {
       </div>
 
       {/* Dark Overlay for Readability */}
-      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_40%,rgba(0,0,0,0)_0%,rgba(0,0,0,0.8)_100%)] z-10" />
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_40%,rgba(0,0,0,0)_0%,rgba(0,0,0,0.9)_100%)] z-10" />
     </section>
   );
 }
