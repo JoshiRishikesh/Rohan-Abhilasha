@@ -17,34 +17,37 @@ export default function Gallery({ data }: { data: ProjectConfig["gallery"] }) {
   ];
 
   const gridVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.9 },
+    hidden: { opacity: 0, scale: 0.95 },
     visible: (i: number) => ({
       opacity: 1,
       scale: 1,
       transition: {
-        delay: i * 0.1,
+        delay: i * 0.08,
         duration: 0.6,
         ease: [0.16, 1, 0.3, 1],
       },
     }),
-    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.2 } }
+    exit: { opacity: 0, scale: 0.95, transition: { duration: 0.2 } }
   };
 
   return (
-    <section className="bg-white py-16 md:py-32 overflow-hidden">
-      <div className="section-container px-4 md:px-6">
+    <section className="bg-white py-12 md:py-32 overflow-hidden">
+      {/* Mobile: px-0 to make images touch screen edges 
+          Desktop: md:px-6 and md:section-container for standard layout 
+      */}
+      <div className="md:section-container px-0 md:px-6">
         
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+        {/* Header - Added px-4 on mobile so text doesn't touch edges */}
+        <div className="px-4 md:px-0 flex flex-col md:flex-row md:items-end justify-between gap-8 mb-10 md:mb-16">
           <div>
             <div className="flex items-center gap-4 mb-4">
               <div className="h-px w-8 bg-primary" />
               <span className="text-primary font-bold uppercase text-[0.55rem] md:text-[0.6rem] tracking-[0.4em]">
-                Curated Collection
+                Visual Narrative
               </span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-serif text-slate-900 leading-tight">
-              Visual <span className="italic text-primary font-light">Narrative</span>
+            <h2 className="text-3xl md:text-6xl font-serif text-slate-900 leading-tight">
+              Curated <span className="italic text-primary font-light">Gallery</span>
             </h2>
           </div>
 
@@ -70,11 +73,11 @@ export default function Gallery({ data }: { data: ProjectConfig["gallery"] }) {
           </div>
         </div>
 
-        {/* 1:1 Optimized Grid */}
-        <div className="min-h-125">
+        {/* 1:1 Grid Optimized for Mobile Full-Width */}
+        <div className="min-h-[400px]">
           <motion.div 
             layout
-            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6"
+            className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-1 md:gap-4 lg:gap-6"
           >
             <AnimatePresence mode="popLayout">
               {data[activeTab].map((src, index) => (
@@ -86,25 +89,25 @@ export default function Gallery({ data }: { data: ProjectConfig["gallery"] }) {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
-                  className="relative aspect-square overflow-hidden bg-slate-50 group rounded-sm border border-slate-100"
+                  className="relative aspect-square overflow-hidden bg-slate-50 group md:rounded-sm border-b md:border border-slate-100"
                 >
                   <Image
                     src={src}
                     alt={`${activeTab} ${index}`}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-                    priority={index < 4}
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                    priority={index < 2}
                   />
                   
-                  {/* Luxury Overlay */}
-                  <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/20 transition-all duration-500" />
+                  {/* Premium Overlay */}
+                  <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-all duration-500" />
                   
-                  {/* Subtle index number for editorial feel */}
-                  <div className="absolute top-4 left-4 overflow-hidden">
-                    <span className="block text-white text-[0.6rem] font-serif italic translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                      0{index + 1}
-                    </span>
+                  {/* Indicator for Full-Width Mobile */}
+                  <div className="absolute bottom-4 right-4 md:hidden">
+                     <span className="text-[0.5rem] text-white/60 uppercase tracking-[0.2em] bg-black/20 backdrop-blur-sm px-2 py-1 rounded-full">
+                       0{index + 1} / {data[activeTab].length}
+                     </span>
                   </div>
                 </motion.div>
               ))}
@@ -113,7 +116,7 @@ export default function Gallery({ data }: { data: ProjectConfig["gallery"] }) {
         </div>
 
         {/* Disclaimer */}
-        <p className="mt-12 text-center text-[0.5rem] uppercase tracking-[0.4em] text-slate-400">
+        <p className="px-4 mt-10 md:mt-16 text-center text-[0.5rem] uppercase tracking-[0.3em] text-slate-400">
           Digital Renderings & Concept Photography
         </p>
       </div>
