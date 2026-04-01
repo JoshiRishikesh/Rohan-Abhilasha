@@ -27,16 +27,15 @@ export default function USPHooks({ data }: { data: ProjectConfig["usp"] }) {
   };
 
   return (
-    // Removed py-5/pt-5 and replaced with p-0 to kill all outer spacing
-    <section className="bg-background w-full overflow-hidden border-t border-border/10 p-0">
+    <section className="bg-background w-full overflow-hidden border-t border-border/10">
       
-      {/* 1. ULTRA-COMPACT HEADER: p-4 instead of p-6/mb-8 */}
-      <div className="w-full px-4 md:px-6 py-3 flex flex-row items-center justify-between border-b border-border/5">
+      {/* HEADER: Tightened py-2.5 for mobile, py-4 for desktop */}
+      <div className="w-full px-4 md:px-6 py-2.5 md:py-4 flex flex-row items-center justify-between border-b border-border/5">
         <div className="flex flex-col">
           <span className="text-[0.5rem] font-bold uppercase tracking-[0.4em] text-primary">
             Highlights
           </span>
-          <h2 className="text-xl md:text-2xl font-serif text-foreground tracking-tight leading-none">
+          <h2 className="text-lg md:text-2xl font-serif text-foreground tracking-tight leading-none">
             The <span className="italic font-light opacity-50">Distinction</span>
           </h2>
         </div>
@@ -62,7 +61,7 @@ export default function USPHooks({ data }: { data: ProjectConfig["usp"] }) {
         </div>
       </div>
 
-      {/* 2. DENSE CAROUSEL: Zero forced height, minimal padding */}
+      {/* CAROUSEL CONTAINER */}
       <div className="w-full relative">
         <div 
           ref={scrollRef}
@@ -72,8 +71,10 @@ export default function USPHooks({ data }: { data: ProjectConfig["usp"] }) {
           {data.map((item, i) => (
             <div 
               key={i} 
-              // Changed py-12 to py-6 (mobile) and py-8 (desktop) 
-              className="group relative flex-none w-screen md:w-[33.333vw] flex flex-col justify-start p-5 md:p-8 py-6 md:py-8 snap-center border-r border-border/5 overflow-hidden"
+              /* MOBILE: px-4 (horizontal), py-5 (vertical)
+                 DESKTOP: md:px-8, md:py-10
+              */
+              className="group relative flex-none w-screen md:w-[33.333vw] flex flex-col justify-start px-4 py-5 md:px-8 md:py-10 snap-center border-r border-border/5 overflow-hidden"
             >
               {/* Background Reveal */}
               <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none">
@@ -81,25 +82,26 @@ export default function USPHooks({ data }: { data: ProjectConfig["usp"] }) {
               </div>
 
               <div className="relative z-10">
-                <div className="flex items-center gap-2 mb-2">
+                {/* Lowered margin from mb-2 to mb-1 for a tighter look */}
+                <div className="flex items-center gap-2 mb-1">
                     <span className="text-[0.5rem] font-bold text-primary/40">0{i + 1}</span>
                     <div className="h-px w-3 bg-primary/20" />
                 </div>
                 
-                <h3 className="text-base md:text-lg font-bold text-foreground leading-tight mb-1 group-hover:text-primary transition-colors duration-300">
+                <h3 className="text-base md:text-lg font-bold text-foreground leading-tight mb-0.5 group-hover:text-primary transition-colors duration-300">
                   {item.subtitle}
                 </h3>
                 
-                <p className="text-foreground/60 text-[0.65rem] leading-snug max-w-[30ch]">
+                <p className="text-foreground/60 text-[0.65rem] leading-snug max-w-[32ch]">
                   {item.title}. Precision engineering for a superior living standard.
                 </p>
               </div>
 
-              {/* Navigation Zone */}
+              {/* Navigation Zone - Desktop Only (Hidden on mobile for better touch UX) */}
               {i < data.length - 1 && (
                 <button 
                   onClick={() => scrollToInput(i + 1)}
-                  className="absolute right-0 top-0 bottom-0 w-8 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="hidden md:flex absolute right-0 top-0 bottom-0 w-8 z-20 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   <HiOutlineChevronRight className="w-3 h-3 text-primary" />
                 </button>

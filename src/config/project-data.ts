@@ -112,14 +112,13 @@ export const PROJECT_DATA: ProjectConfig = {
       items: [
         { name: "Well equipped gymnasium", image: "/assets/gymnasium.avif" },
         { name: "Swimming pool with deck", image: "/assets/Swimming.avif" },
-        { name: "Well furnished guest room", image: "/assets/project-2.avif" },
-        { name: "Co-working space / library", image: "/assets/project-3.avif" },
-        "Multipurpose hall with pantry provision",
-        "Indoor games area",
-        "Crèche",
-        "Yoga room",
-        "Hobby room",
-        "Double height entry ways"
+        { name: "Well furnished guest room", image: "/assets/guestRoom.avif" },
+        { name: "Co-working space / library", image: "/assets/Co-working.avif" },
+        { name: "Multipurpose hall with pantry provision", image: "/assets/pantry.avif" },
+        { name: "Indoor games area", image: "/assets/IndoorGames.avif" },
+        { name: "Crèche", image: "/assets/Crèche.avif" },
+        { name: "Hobby room", image: "/assets/HobbyRoom.avif" },
+        { name: "Double height entry ways", image: "/assets/entry.avif" }
       ]
     },
     {
