@@ -1,88 +1,113 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { ProjectConfig } from "@/config/project-data";
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
+import { HiOutlineChevronRight, HiOutlineChevronLeft } from "react-icons/hi2"; 
+import Image from "next/image";
 
 export default function USPHooks({ data }: { data: ProjectConfig["usp"] }) {
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const index = Math.round(scrollRef.current.scrollLeft / scrollRef.current.clientWidth);
+      setActiveIndex(index);
+    }
   };
 
-  const itemVariants: Variants = {
-    hidden: { 
-      opacity: 0, 
-      y: 20, // Reduced y for smoother mobile flow
-      filter: "blur(8px)" 
-    },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      filter: "blur(0px)",
-      transition: { 
-        duration: 1.0, 
-        ease: [0.22, 1, 0.36, 1] 
-      } 
-    },
+  const scrollToInput = (index: number) => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        left: index * scrollRef.current.clientWidth,
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
-    <section className="bg-background relative z-30 overflow-hidden md:min-h-screen flex items-stretch border-t border-border/50">
-      <motion.div 
-        className="w-full flex flex-col"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-10%" }}
-        variants={containerVariants}
-      >
-        {/* Changed grid flow for mobile: tighter rows */}
-        <div className="grid grid-cols-1 md:grid-cols-3 grow divide-y md:divide-y-0 md:divide-x divide-border/60">
+    // Removed py-5/pt-5 and replaced with p-0 to kill all outer spacing
+    <section className="bg-background w-full overflow-hidden border-t border-border/10 p-0">
+      
+      {/* 1. ULTRA-COMPACT HEADER: p-4 instead of p-6/mb-8 */}
+      <div className="w-full px-4 md:px-6 py-3 flex flex-row items-center justify-between border-b border-border/5">
+        <div className="flex flex-col">
+          <span className="text-[0.5rem] font-bold uppercase tracking-[0.4em] text-primary">
+            Highlights
+          </span>
+          <h2 className="text-xl md:text-2xl font-serif text-foreground tracking-tight leading-none">
+            The <span className="italic font-light opacity-50">Distinction</span>
+          </h2>
+        </div>
+        
+        <div className="flex items-center gap-3">
+            <span className="text-[0.55rem] font-bold text-primary tabular-nums">0{activeIndex + 1} / 0{data.length}</span>
+            <div className="flex gap-1">
+                <button 
+                  onClick={() => scrollToInput(activeIndex - 1)} 
+                  className="p-1 hover:text-primary transition-colors disabled:opacity-10" 
+                  disabled={activeIndex === 0}
+                >
+                    <HiOutlineChevronLeft size={14} />
+                </button>
+                <button 
+                  onClick={() => scrollToInput(activeIndex + 1)} 
+                  className="p-1 hover:text-primary transition-colors disabled:opacity-10" 
+                  disabled={activeIndex === data.length - 1}
+                >
+                    <HiOutlineChevronRight size={14} />
+                </button>
+            </div>
+        </div>
+      </div>
+
+      {/* 2. DENSE CAROUSEL: Zero forced height, minimal padding */}
+      <div className="w-full relative">
+        <div 
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex flex-row w-full overflow-x-auto snap-x snap-mandatory scrollbar-hide md:overflow-hidden"
+        >
           {data.map((item, i) => (
-            <motion.div 
+            <div 
               key={i} 
-              variants={itemVariants}
-              // MOBILE OPTIMIZATION: Reduced padding (p-8) and height (min-h-[320px])
-              className="group relative flex flex-col justify-center p-8 lg:p-20 border-border hover:bg-secondary/30 transition-all duration-1000 min-h-[320px] md:min-h-screen overflow-hidden"
+              // Changed py-12 to py-6 (mobile) and py-8 (desktop) 
+              className="group relative flex-none w-screen md:w-[33.333vw] flex flex-col justify-start p-5 md:p-8 py-6 md:py-8 snap-center border-r border-border/5 overflow-hidden"
             >
-              {/* Massive Ghost Number - Scaled down for mobile */}
-              <span className="absolute top-10 right-6 md:top-20 md:right-12 text-7xl lg:text-9xl font-serif italic text-primary/5 group-hover:text-primary/10 group-hover:-translate-y-2 md:group-hover:-translate-y-4 transition-all duration-1000 select-none pointer-events-none">
-                0{i + 1}
-              </span>
+              {/* Background Reveal */}
+              <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none">
+                <Image src={`/assets/usp-${i + 1}.avif`} alt="" fill className="object-cover grayscale" />
+              </div>
 
               <div className="relative z-10">
-                {/* Category Label - Tighter margin on mobile */}
-                <p className="text-primary text-[0.6rem] md:text-[0.7rem] font-black uppercase mb-4 md:mb-8 tracking-[0.4em] md:tracking-[0.5em]">
-                  {item.title}
-                </p>
-
-                {/* The Main Hook - Reduced size on mobile for better fit */}
-                <h3 className="text-3xl lg:text-5xl xl:text-6xl font-serif text-foreground leading-[1.2] md:leading-[1.1] max-w-[12ch] md:max-w-[10ch] group-hover:translate-x-2 md:group-hover:translate-x-4 transition-transform duration-700 ease-out">
+                <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[0.5rem] font-bold text-primary/40">0{i + 1}</span>
+                    <div className="h-px w-3 bg-primary/20" />
+                </div>
+                
+                <h3 className="text-base md:text-lg font-bold text-foreground leading-tight mb-1 group-hover:text-primary transition-colors duration-300">
                   {item.subtitle}
                 </h3>
-
-                {/* Descriptive nuance - Forced visible on mobile (since no hover) but kept clean */}
-                <p className="mt-4 md:mt-8 text-foreground/40 text-xs md:text-sm max-w-[28ch] md:max-w-[25ch] font-light leading-relaxed md:opacity-0 md:group-hover:opacity-100 md:translate-y-4 md:group-hover:translate-y-0 transition-all duration-700 delay-100">
-                  Experience a new paradigm of architectural excellence and refined living.
+                
+                <p className="text-foreground/60 text-[0.65rem] leading-snug max-w-[30ch]">
+                  {item.title}. Precision engineering for a superior living standard.
                 </p>
-
-                {/* Interactive Accent Line - Smaller on mobile */}
-                <div className="w-8 h-[1px] md:w-12 bg-primary mt-6 md:mt-12 group-hover:w-16 md:group-hover:w-24 transition-all duration-1000" />
               </div>
-              
-              {/* Corner Accent - Hidden on mobile to reduce visual noise */}
-              <div className="hidden md:block absolute bottom-0 right-0 w-0 h-0 border-t-40 border-t-transparent border-r-40 border-r-primary/0 group-hover:border-r-primary/10 transition-all duration-700" />
-              
-              {/* Subtle hover background sweep */}
-              <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/2 pointer-events-none transition-colors duration-1000" />
-            </motion.div>
+
+              {/* Navigation Zone */}
+              {i < data.length - 1 && (
+                <button 
+                  onClick={() => scrollToInput(i + 1)}
+                  className="absolute right-0 top-0 bottom-0 w-8 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  <HiOutlineChevronRight className="w-3 h-3 text-primary" />
+                </button>
+              )}
+            </div>
           ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

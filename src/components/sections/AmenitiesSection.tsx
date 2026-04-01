@@ -1,150 +1,167 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { 
-  RiHotelLine, 
-  RiLeafLine, 
-  RiPingPongLine, 
-  RiShieldStarLine,
-} from "react-icons/ri";
-import { AmenityCategory } from "@/config/project-data";
+import { useState } from "react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
+import Image from "next/image";
+import { RiHotelLine } from "react-icons/ri";
 
-interface AmenitiesSectionProps {
-  data: AmenityCategory[];
-}
-
-const categoryIcons: Record<string, React.ReactNode> = {
-  "Clubhouse & Lifestyle": <RiHotelLine />,
-  "Landscape & Outdoors": <RiLeafLine />,
-  "Sports Facilities": <RiPingPongLine />,
-  "Infrastructure & Services": <RiShieldStarLine />,
-};
-
-export default function AmenitiesSection({ data }: AmenitiesSectionProps) {
+export default function AmenitiesMobileOptimized({ data }: { data: any[] }) {
   const [activeTab, setActiveTab] = useState(0);
-  const [mounted, setMounted] = useState(false);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Center the active tab on mobile when clicked
-  const handleTabClick = (idx: number, e: React.MouseEvent) => {
-    setActiveTab(idx);
-    const target = e.currentTarget as HTMLElement;
-    target.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-  };
 
   if (!data || data.length === 0) return null;
 
-  if (!mounted) {
-    return <section className="py-12 md:py-24 bg-background min-h-[400px]" />;
-  }
+  const currentCategory = data[activeTab];
+  const items = currentCategory.items || [];
+
+  // Theme-specific reveal variants
+  const revealVariants: Variants = {
+    hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      filter: "blur(0px)",
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } 
+    },
+  };
 
   return (
-    <section id="amenities" className="py-16 md:py-24 bg-background border-t border-border/60 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 md:px-12">
+    <section className="bg-background pt-12 pb-20 overflow-hidden -mt-px">
+      <div className="px-6">
         
-        {/* Header */}
-        <div className="mb-8 md:mb-16">
-          <motion.span 
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
+        {/* --- 1. Editorial Header (Theme Corrected) --- */}
+        <div className="relative mb-16">
+          {/* Large Background Italic Text */}
+          <span className="absolute -top-6 -left-4 text-7xl font-serif italic opacity-[0.04] select-none pointer-events-none uppercase tracking-tighter whitespace-nowrap">
+            Lifestyle
+          </span>
+          
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
             viewport={{ once: true }}
-            className="text-primary uppercase tracking-[0.3em] text-[0.65rem] md:text-[0.7rem] font-black block mb-3"
+            variants={revealVariants}
+            className="relative z-10"
           >
-            The Masterplan
-          </motion.span>
-          <h2 className="text-3xl md:text-7xl font-serif text-foreground leading-tight">
-            Curated <span className="italic font-light text-muted-foreground/40">Amenities</span>
-          </h2>
+            <div className="flex items-center gap-4 mb-4">
+              <div className="h-px w-8 bg-primary" />
+              <span className="text-primary font-bold uppercase text-[0.55rem] tracking-[0.4em]">
+                The Curation
+              </span>
+            </div>
+            <h2 className="text-4xl font-serif text-foreground leading-[1.1] tracking-tight">
+              Refining the <br />
+              <span className="italic text-primary pl-10 inline-block mt-1">Standard</span>
+            </h2>
+          </motion.div>
         </div>
 
-        {/* Tab Bar - Optimized for Mobile Swipe */}
-        <div className="relative mb-8 -mx-4 px-4 md:mx-0 md:px-0">
-          <div 
-            ref={scrollContainerRef}
-            className="flex md:flex-wrap gap-2 overflow-x-auto pb-4 md:pb-0 scrollbar-hide snap-x"
-          >
-            {data.map((cat, idx) => (
-              <button
-                key={cat.category}
-                onClick={(e) => handleTabClick(idx, e)}
-                className={`flex-shrink-0 snap-center px-6 py-4 md:px-8 md:py-5 text-[0.6rem] md:text-[0.75rem] uppercase tracking-[0.15em] font-black transition-all duration-300 relative flex items-center justify-center gap-3 border border-border/60 min-w-[140px] md:min-w-0 ${
-                  activeTab === idx ? "text-white border-transparent" : "text-muted-foreground bg-secondary/5"
-                }`}
-              >
-                {activeTab === idx && (
-                  <motion.div 
-                    layoutId="activeTabPill"
-                    className="absolute inset-0 bg-slate-950"
-                    transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-                  />
-                )}
-                <span className="relative z-10 text-lg md:text-xl">
-                  {categoryIcons[cat.category]}
-                </span>
-                <span className="relative z-10 whitespace-nowrap">
-                  {/* Show full category on desktop, first word on mobile if space is tight */}
-                  <span className="md:inline">{cat.category.split(' ')[0]}</span>
-                  <span className="hidden md:inline"> {cat.category.split(' ').slice(1).join(' ')}</span>
-                </span>
-                <span className="relative z-10 opacity-40 text-[0.6rem]">[{cat.items.length}]</span>
-              </button>
-            ))}
-          </div>
-          {/* Mobile indicator for scrollability */}
-          <div className="absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-background to-transparent pointer-events-none md:hidden" />
-        </div>
-
-        {/* Content Grid */}
-        <div className="min-h-[300px]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 border-t border-l border-border/60"
+        {/* --- 2. Minimal Category Tabs (Underline Style) --- */}
+        <div className="flex gap-8 overflow-x-auto pb-6 scrollbar-hide border-b border-border/40 mb-10">
+          {data.map((cat: any, idx: number) => (
+            <button
+              key={cat.category}
+              onClick={() => setActiveTab(idx)}
+              className={`flex-shrink-0 pb-4 text-[0.6rem] uppercase tracking-[0.3em] font-bold transition-all relative cursor-pointer ${
+                activeTab === idx ? "text-foreground" : "text-muted-foreground/50"
+              }`}
             >
-              {data[activeTab].items.map((item, i) => (
+              {cat.category.split(' ')[0]}
+              {activeTab === idx && (
                 <motion.div 
-                  key={item}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.03 }}
-                  className="group relative flex flex-col justify-between p-6 md:p-8 min-h-[140px] md:min-h-[220px] border-r border-b border-border/60 hover:bg-secondary/10 transition-all duration-500 overflow-hidden"
-                >
-                  {/* Top Reveal Line */}
-                  <div className="absolute top-0 left-0 w-full h-[2px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-20" />
-
-                  {/* Watermark Number - Slightly smaller on mobile */}
-                  <span className="absolute -bottom-2 -right-1 text-5xl md:text-7xl font-serif italic text-primary/5 group-hover:text-primary/10 transition-all duration-700 select-none">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-
-                  {/* Indicator Icon */}
-                  <div className="relative z-10 w-8 h-8 md:w-10 md:h-10 rounded-full bg-secondary/40 md:bg-secondary/60 flex items-center justify-center text-primary text-sm md:text-base">
-                    {categoryIcons[data[activeTab].category]}
-                  </div>
-
-                  {/* Feature Text */}
-                  <div className="relative z-10 mt-4 md:mt-6">
-                    <h4 className="text-base md:text-xl font-medium leading-tight text-foreground/90 group-hover:text-foreground transition-colors duration-300 tracking-tight">
-                      {item}
-                    </h4>
-                    <div className="mt-3 w-1.5 h-1.5 bg-primary rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 delay-100" />
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
+                  layoutId="activeUnderline"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+            </button>
+          ))}
         </div>
 
+        {/* --- 3. The Interactive Reel --- */}
+        <div className="relative -mx-6">
+          <div className="flex gap-5 overflow-x-auto px-6 pb-8 snap-x scrollbar-hide">
+            <AnimatePresence mode="wait">
+              {items.map((item: any, i: number) => {
+                const isObject = typeof item === 'object' && item !== null;
+                const title = isObject ? item.name : item;
+                const imageSrc = isObject && item.image ? item.image : "/assets/hero-architecture.avif";
+
+                return (
+                  <motion.div
+                    key={`${activeTab}-${title}`}
+                    initial="hidden"
+                    animate="visible"
+                    variants={revealVariants}
+                    transition={{ delay: i * 0.1 }}
+                    className="flex-shrink-0 w-[290px] h-[420px] bg-slate-100 relative overflow-hidden snap-center group cursor-pointer"
+                  >
+                    <Image
+                      src={imageSrc}
+                      alt={title}
+                      fill
+                      className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110 brightness-[0.85]"
+                      sizes="300px"
+                    />
+                    
+                    {/* Gradient Overlay Matching Theme */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0B10] via-transparent to-transparent opacity-90" />
+
+                    {/* Content */}
+                    <div className="absolute inset-0 flex flex-col justify-end p-8">
+                      {/* Experience Tag */}
+                      <div className="mb-auto">
+                         <div className="inline-block px-2 py-1 bg-white/5 backdrop-blur-md border border-white/10">
+                            <span className="text-[0.5rem] uppercase tracking-[0.2em] text-white/80 font-bold">
+                              Experience 0{i + 1}
+                            </span>
+                         </div>
+                      </div>
+
+                      <h4 className="text-2xl font-serif text-white leading-tight tracking-wide group-hover:text-primary transition-colors duration-500">
+                        {title}
+                      </h4>
+
+                      <div className="flex items-center gap-4 mt-5">
+                        <div className="h-px w-6 bg-primary group-hover:w-12 transition-all duration-700" />
+                        <div className="w-1 h-1 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700 delay-300" />
+                      </div>
+                    </div>
+
+                    {/* Corner Accent */}
+                    <div className="absolute bottom-0 right-0 w-0 h-0 border-b border-r border-primary/60 group-hover:w-6 group-hover:h-6 transition-all duration-500" />
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+
+            {/* --- "Discover More" Themed Card --- */}
+            <div className="flex-shrink-0 w-[220px] h-[420px] border border-border/40 flex flex-col items-center justify-center gap-5 snap-center bg-slate-50/10 mr-6 group cursor-pointer">
+               <div className="w-12 h-12 rounded-full bg-background border border-border flex items-center justify-center group-hover:border-primary transition-colors">
+                  <RiHotelLine className="text-primary" size={22} />
+               </div>
+               <div className="text-center px-4">
+                  <p className="text-[0.6rem] font-bold uppercase tracking-[0.25em] text-foreground mb-1">View All</p>
+                  <p className="text-[0.55rem] uppercase font-medium text-muted-foreground/60 tracking-widest leading-relaxed">
+                    {items.length} Amenities
+                  </p>
+               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* --- 4. Minimal Progress Indicator --- */}
+        <div className="mt-2 flex justify-center">
+            <div className="flex gap-2.5">
+                {[...Array(Math.min(items.length, 5))].map((_, i) => (
+                    <div 
+                      key={i} 
+                      className={`h-0.5 transition-all duration-700 ${
+                        i === 0 ? "w-8 bg-primary" : "w-2 bg-border/40"
+                      }`} 
+                    />
+                ))}
+            </div>
+        </div>
       </div>
     </section>
   );

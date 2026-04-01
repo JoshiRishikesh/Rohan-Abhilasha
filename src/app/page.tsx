@@ -14,13 +14,13 @@ import Gallery from "@/components/sections/Gallery";
 export default function Home() {
   return (
     <>
-      <Hero data={PROJECT_DATA.hero} highlights={PROJECT_DATA.heroHighlights} />
+      <div id="hero"><Hero data={PROJECT_DATA.hero} highlights={PROJECT_DATA.heroHighlights} /></div>
       <ProjectHighlights data={PROJECT_DATA.projectHighlights} />
-      <Amenities data={PROJECT_DATA.amenities} />
-      <AmenitiesSection data={PROJECT_DATA.categorizedAmenities} />
-      <Inventory data={PROJECT_DATA.inventory} />
-      <Gallery data={PROJECT_DATA.gallery} />      
+      <div id="amenities"><Amenities data={PROJECT_DATA.amenities} /></div>
+      <div id="inventory"><Inventory data={PROJECT_DATA.inventory} /></div>
+      <div id="gallery"><AmenitiesSection data={PROJECT_DATA.categorizedAmenities} /></div>
       <USPHooks data={PROJECT_DATA.usp} />
+      <Gallery data={PROJECT_DATA.gallery} />      
       <LocationAdvantage data={PROJECT_DATA.locationAdvantages}/>
       <About data={PROJECT_DATA.about} projectName={PROJECT_DATA.projectName} />
       <Walkthrough videoId={PROJECT_DATA.walkthroughVideoId} />
