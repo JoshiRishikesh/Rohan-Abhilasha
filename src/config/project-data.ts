@@ -177,7 +177,7 @@ export const PROJECT_DATA: ProjectConfig = {
     layout: ["/assets/layout.avif"],
   },
 
-  walkthroughVideoId: "dQw4w9WgXcQ",
+  walkthroughVideoId: "DiA7JenZXfw",
 
   locationAdvantages: [
     { place: "EON IT Park", distance: "12 Mins", image: "/assets/location/eon-it.avif" },
