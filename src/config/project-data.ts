@@ -12,6 +12,7 @@ export interface AmenityCategory {
 export interface ProjectConfig {
   projectName: string;
   brandLogo: string;
+  locationMap: string;
   googleAds: {
     conversionId: string;
     conversionLabel: string;
@@ -60,6 +61,7 @@ export interface ProjectConfig {
 export const PROJECT_DATA: ProjectConfig = {
   projectName: "Rohan Abhilasha",
   brandLogo: "/assets/logo.avif",
+  locationMap: "/assets/map.avif",
   
   googleAds: {
     conversionId: "AW-123456789", 

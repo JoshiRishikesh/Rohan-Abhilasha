@@ -21,8 +21,9 @@ export default function Home() {
       <div id="gallery"><AmenitiesSection data={PROJECT_DATA.categorizedAmenities} /></div>
       <USPHooks data={PROJECT_DATA.usp} />
       <Gallery data={PROJECT_DATA.gallery} />      
-      <LocationAdvantage data={PROJECT_DATA.locationAdvantages}/>
-      <About data={PROJECT_DATA.about} projectName={PROJECT_DATA.projectName} />
+      <LocationAdvantage 
+        data={PROJECT_DATA.locationAdvantages} locationMap={PROJECT_DATA.locationMap} />
+            <About data={PROJECT_DATA.about} projectName={PROJECT_DATA.projectName} />
       <Walkthrough videoId={PROJECT_DATA.walkthroughVideoId} />
       <Footer config={PROJECT_DATA} />
       

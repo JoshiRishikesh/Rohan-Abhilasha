@@ -108,15 +108,6 @@ export default function AmenitiesMobileOptimized({ data }: { data: any[] }) {
 
                     {/* Content */}
                     <div className="absolute inset-0 flex flex-col justify-end p-8">
-                      {/* Experience Tag */}
-                      <div className="mb-auto">
-                         <div className="inline-block px-2 py-1 bg-white/5 backdrop-blur-md border border-white/10">
-                            <span className="text-[0.5rem] uppercase tracking-[0.2em] text-white/80 font-bold">
-                              Experience 0{i + 1}
-                            </span>
-                         </div>
-                      </div>
-
                       <h4 className="text-2xl font-serif text-white leading-tight tracking-wide group-hover:text-primary transition-colors duration-500">
                         {title}
                       </h4>

@@ -77,7 +77,7 @@ export default function Walkthrough({ videoId }: { videoId: string }) {
               {/* Video Thumbnail Placeholder */}
               <div 
                 className="absolute inset-0 -z-10 bg-cover bg-center opacity-60 grayscale-[0.3] md:grayscale-[0.5] group-hover:scale-105 transition-transform duration-[5s]"
-                style={{ backgroundImage: `url(https://img.youtube.com/vi/${videoId}/maxresdefault.jpg)` }}
+                style={{ backgroundImage: `url(https://img.youtube.com/vi/${videoId}/hqdefault.jpg)` }}
               />
             </div>
           ) : (

@@ -44,7 +44,7 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-100 transition-all duration-500 ${
           isScrolled || isOpen
             ? "bg-white/90 backdrop-blur-xl border-b border-slate-200/50 py-3 shadow-sm"
             : "bg-transparent py-4 md:py-6"
@@ -156,9 +156,6 @@ export default function Navbar() {
                   onClick={() => scrollToSection(link.id)}
                   className="text-left group cursor-pointer"
                 >
-                  <span className="block text-[0.55rem] uppercase tracking-[0.4em] font-bold text-primary mb-2">
-                    0{i + 1}
-                  </span>
                   <span className="text-4xl font-serif italic text-slate-900 group-hover:text-primary transition-colors">
                     {link.name}
                   </span>
