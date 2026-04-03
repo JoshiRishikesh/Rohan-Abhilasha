@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { ProjectConfig } from "@/config/project-data";
 
-type Category = "amenities" | "exterior"; // Removed layout from tabs
+type Category = "amenities" | "exterior";
 
 export default function Gallery({ data }: { data: ProjectConfig["gallery"] }) {
   const [activeTab, setActiveTab] = useState<Category>("amenities");
@@ -34,7 +34,7 @@ export default function Gallery({ data }: { data: ProjectConfig["gallery"] }) {
 
       <div className="px-4 md:px-6 max-w-7xl mx-auto">
         
-        {/* 1. Filtered Masonry (Amenities/Exteriors) */}
+        {/* 1. Filtered Masonry Section */}
         <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 md:mb-12">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariants}>
             <div className="flex items-center gap-3 mb-2">
@@ -108,7 +108,10 @@ export default function Gallery({ data }: { data: ProjectConfig["gallery"] }) {
             variants={revealVariants}
             className="text-center mb-10"
           >
-             <span className="text-primary font-bold uppercase text-[0.55rem] tracking-[0.4em] mb-4 block">Architectural Precision</span>
+             {/* Moved the label here for better visibility */}
+             <span className="text-primary font-bold uppercase text-[0.55rem] tracking-[0.4em] mb-4 block">
+                Official Floor Plan
+             </span>
              <h3 className="text-2xl md:text-4xl font-serif text-foreground mb-4">Master <span className="italic">Unit Layout</span></h3>
              <p className="text-muted-foreground text-xs md:text-sm max-w-lg mx-auto">Explore the detailed spatial planning and meticulous design of our signature residences.</p>
           </motion.div>
@@ -120,22 +123,15 @@ export default function Gallery({ data }: { data: ProjectConfig["gallery"] }) {
             transition={{ duration: 1 }}
             className="relative mx-auto max-w-2xl aspect-square overflow-hidden group border border-border/10 bg-white shadow-2xl"
           >
-            {/* Using the layout key from your data specifically */}
             <Image
               src={data.layout[0]} 
-              alt="Compulsory Unit Layout"
+              alt="Official Unit Layout"
               fill
               className="object-contain p-4 md:p-12 transition-transform duration-[2s] group-hover:scale-105"
               sizes="(max-width: 1000px) 100vw, 800px"
               priority
             />
-            
-            {/* Luxury Label */}
-            <div className="absolute bottom-6 left-6 bg-background/90 backdrop-blur-md px-5 py-3 border border-border/50 shadow-sm">
-              <span className="text-[0.6rem] uppercase tracking-[0.3em] text-primary font-black">
-                Official Floor Plan
-              </span>
-            </div>
+            {/* The overlay label has been removed from here */}
           </motion.div>
         </div>
 
