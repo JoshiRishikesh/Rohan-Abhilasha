@@ -59,7 +59,7 @@ export default function Gallery({ data }: { data: ProjectConfig["gallery"] }) {
                 {activeTab === cat.id && (
                   <motion.div 
                     layoutId="galleryTabUnderline"
-                    className="absolute bottom-[-1px] left-0 right-0 h-[1.5px] bg-primary"
+                    className="absolute -bottom-px left-0 right-0 h-[1.5px] bg-primary"
                   />
                 )}
               </button>

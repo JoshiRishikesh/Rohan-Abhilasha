@@ -18,7 +18,9 @@ export interface ProjectConfig {
     conversionLabel: string;
   };
   hero: {
+    preHeader: string;
     title: string;
+    secondaryTitle: string; // Add this line
     subtitle: string;
     bgImage: string;
     ctaText: string;
@@ -69,7 +71,9 @@ export const PROJECT_DATA: ProjectConfig = {
   },
 
   hero: {
-    title: "The Art of Modern Living",
+    preHeader: "The Art of Modern Living",
+    title: "No EMI Till Possession",
+    secondaryTitle: "An Exclusive Premiere",
     subtitle: "Premium 1 | 2 & 3 BHK Homes in Wagholi, Pune",
     bgImage: "/assets/hero-architecture.avif",
     ctaText: "Download Brochure",

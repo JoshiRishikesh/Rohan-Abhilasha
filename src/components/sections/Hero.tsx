@@ -28,7 +28,7 @@ export default function Hero({ data, highlights }: HeroProps) {
   };
 
   return (
-    <section className="relative w-full h-[100svh] flex items-center justify-center overflow-hidden bg-[#0A0B10]">
+    <section className="relative w-full h-svh flex items-center justify-center overflow-hidden bg-[#0A0B10]">
       {/* 1. Background Image Layer */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -46,17 +46,22 @@ export default function Hero({ data, highlights }: HeroProps) {
       {/* 2. Main Hero Content */}
       <div className={`
         relative z-20 section-container text-center flex flex-col items-center px-6
-        /* Mobile: Large padding to stay above the 2x2 stacked grid */
+        /* Mobile: Keep existing spacing */
         pb-80 sm:pb-72 
-        /* Desktop: Negative translate pulls content up, large padding clears the horizontal highlights */
-        md:pb-64 lg:pb-80 md:-translate-y-12 lg:-translate-y-20
-        transition-transform duration-700
+        /* Desktop: Removed negative translate and added pt-32 to clear navbar */
+        md:pb-64 lg:pb-80 md:pt-32 lg:pt-40
+        transition-all duration-700
       `}>
-        <div className="w-px h-8 md:h-12 bg-primary mb-6 md:mb-10 origin-top animate-line-grow" />
+        {/* Adjusted spacing for the gold line on desktop */}
+        <div className="w-px h-8 md:h-12 bg-primary mb-6 md:mb-12 origin-top animate-line-grow" />
         
-        <span className="uppercase text-[0.55rem] md:text-[0.65rem] mb-3 md:mb-6 text-primary font-bold tracking-[0.3em] md:tracking-[0.6em] opacity-0 animate-slide-up" style={{ animationDelay: '800ms', animationFillMode: 'forwards' }}>
-          An Exclusive Premiere
-        </span>
+        {/* Dynamic Pre-Header */}
+        {data.preHeader && (
+          <span className="uppercase text-[0.55rem] md:text-[0.65rem] mb-3 md:mb-8 text-primary font-bold tracking-[0.4em] md:tracking-[0.6em] opacity-0 animate-slide-up" 
+                style={{ animationDelay: '800ms', animationFillMode: 'forwards' }}>
+            {data.preHeader}
+          </span>
+        )}
         
         <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl text-white leading-[1.2] md:leading-[1.1] mb-4 md:mb-8 font-serif text-balance">
           {data.title.split(' ').map((word, i) => (
@@ -69,13 +74,23 @@ export default function Hero({ data, highlights }: HeroProps) {
             </span>
           ))}
         </h1>
+
+        {/* Dynamic Secondary Title */}
+        {data.secondaryTitle && (
+          <div className="opacity-0 animate-slide-up mb-6 md:mb-10 px-4"
+               style={{ animationDelay: '1800ms', animationFillMode: 'forwards' }}>
+            <h2 className="text-primary/90 text-[0.6rem] sm:text-xs md:text-sm lg:text-base tracking-[0.35em] md:tracking-[0.5em] font-medium uppercase italic max-w-3xl mx-auto">
+              {data.secondaryTitle}
+            </h2>
+          </div>
+        )}
         
         <p className="max-w-xs sm:max-w-xl md:max-w-2xl mx-auto text-white/80 font-light tracking-wide text-sm md:text-lg mb-8 md:mb-12 opacity-0 animate-blur-reveal text-balance" 
-           style={{ animationDelay: '2000ms', animationFillMode: 'forwards' }}>
+           style={{ animationDelay: '2200ms', animationFillMode: 'forwards' }}>
           {data.subtitle}
         </p>
         
-        <div className="opacity-0 animate-slide-up w-full sm:w-auto" style={{ animationDelay: '2400ms', animationFillMode: 'forwards' }}>
+        <div className="opacity-0 animate-slide-up w-full sm:w-auto" style={{ animationDelay: '2600ms', animationFillMode: 'forwards' }}>
           <button 
             onClick={handleBrochureClick}
             className="luxury-button w-full sm:w-auto px-8 md:px-16 py-4 md:py-5 border border-primary/50 hover:bg-primary transition-all duration-700 cursor-pointer text-[0.65rem] md:text-[0.75rem] tracking-widest text-white uppercase font-bold shadow-2xl"
@@ -96,7 +111,7 @@ export default function Hero({ data, highlights }: HeroProps) {
                 animate={{ opacity: 1, y: 0 }}
                 whileHover={{ y: -5 }}
                 transition={{ 
-                  delay: 2.8 + (idx * 0.10), 
+                  delay: 3.0 + (idx * 0.10), 
                   duration: 0.8, 
                   ease: [0.16, 1, 0.3, 1],
                 }}
@@ -122,7 +137,6 @@ export default function Hero({ data, highlights }: HeroProps) {
         </div>
       </div>
 
-      {/* Dark Overlay for Readability */}
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_40%,rgba(0,0,0,0)_0%,rgba(0,0,0,0.9)_100%)] z-10" />
     </section>
   );
